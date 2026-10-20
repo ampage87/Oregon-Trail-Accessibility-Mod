@@ -1,0 +1,106 @@
+== OTAccess.exe (12ed53924aa49c2fbc8428f4746f048088d82c9e)
+guest.cpp
+resources.cpp
+gamestate.cpp
+config.cpp
+mod.cpp
+patcher.cpp
+platform_win.cpp
+Generating Code...
+== OTMOD.COM
+== installer
+Inno Setup 6 Command-Line Compiler
+Copyright (C) 1997-2026 Jordan Russell. All rights reserved.
+Portions Copyright (C) 2000-2026 Martijn Laan. All rights reserved.
+Portions Copyright (C) 2001-2004 Alex Yackimoff. All rights reserved.
+https://www.innosetup.com
+
+Compiler engine version: Inno Setup 6.7.1
+Non-commercial use only
+
+Preprocessing
+   Reading file: C:\Program Files (x86)\Inno Setup 6\ISPPBuiltins.iss
+Parsing [Setup] section, line 22
+Parsing [Setup] section, line 23
+Parsing [Setup] section, line 24
+Parsing [Setup] section, line 25
+Parsing [Setup] section, line 26
+Parsing [Setup] section, line 27
+Parsing [Setup] section, line 28
+Parsing [Setup] section, line 29
+Parsing [Setup] section, line 30
+Parsing [Setup] section, line 31
+Parsing [Setup] section, line 32
+Parsing [Setup] section, line 33
+Parsing [Setup] section, line 34
+Parsing [Setup] section, line 35
+Parsing [Setup] section, line 36
+Parsing [Setup] section, line 37
+Parsing [Setup] section, line 38
+Parsing [Setup] section, line 39
+Parsing [Setup] section, line 40
+Parsing [Setup] section, line 41
+Parsing [Setup] section, line 42
+Parsing [Setup] section, line 43
+Parsing [Setup] section, line 44
+Creating output directory: D:\a\Oregon-Trail-Accessibility-Mod\Oregon-Trail-Accessibility-Mod\installer\Output
+Reading file (InfoBeforeFile)
+Reading file (WizardImageFile)
+Reading file (WizardSmallImageFile)
+Preparing Setup program executable
+   Verification successful
+   Updating icons (Setup.e32)
+   Updating version info (Setup.e32)
+Determining language code pages
+   Reading file: C:\Program Files (x86)\Inno Setup 6\Default.isl
+   Messages in script file
+Reading default messages from Default.isl
+Parsing [LangOptions], [Messages], and [CustomMessages] sections
+   Reading file: C:\Program Files (x86)\Inno Setup 6\Default.isl
+   Messages in script file
+Reading [Code] section
+Parsing [Tasks] section, line 47
+Parsing [Tasks] section, line 48
+Parsing [Icons] section, line 58
+Parsing [Icons] section, line 59
+Parsing [Icons] section, line 60
+Parsing [Icons] section, line 61
+Parsing [UninstallDelete] section, line 69
+Parsing [UninstallDelete] section, line 70
+Parsing [UninstallDelete] section, line 71
+Parsing [UninstallDelete] section, line 72
+Parsing [UninstallDelete] section, line 73
+Parsing [UninstallDelete] section, line 74
+Parsing [UninstallDelete] section, line 75
+Parsing [UninstallDelete] section, line 76
+Parsing [UninstallDelete] section, line 77
+Parsing [UninstallDelete] section, line 78
+Parsing [UninstallDelete] section, line 79
+Parsing [UninstallDelete] section, line 80
+Parsing [Run] section, line 64
+Parsing [Files] section, line 51
+Parsing [Files] section, line 52
+Parsing [Files] section, line 53
+   Reading version info: D:\a\Oregon-Trail-Accessibility-Mod\Oregon-Trail-Accessibility-Mod\installer\..\src\OTAccess.default.ini
+Parsing [Files] section, line 54
+Parsing [Files] section, line 55
+Compiling [Code] section
+Creating setup files
+   Verification successful
+   Updating icons (Setup.exe)
+   Compressing: D:\a\Oregon-Trail-Accessibility-Mod\Oregon-Trail-Accessibility-Mod\installer\..\build\OTAccess.exe
+   Compressing: D:\a\Oregon-Trail-Accessibility-Mod\Oregon-Trail-Accessibility-Mod\installer\..\build\OTMOD.COM
+   Compressing: D:\a\Oregon-Trail-Accessibility-Mod\Oregon-Trail-Accessibility-Mod\installer\..\src\OTAccess.default.ini
+   Compressing: D:\a\Oregon-Trail-Accessibility-Mod\Oregon-Trail-Accessibility-Mod\installer\..\README.md
+   Compressing: D:\a\Oregon-Trail-Accessibility-Mod\Oregon-Trail-Accessibility-Mod\installer\..\LICENSE
+   Compressing Setup program executable
+   Updating version info (Setup.exe)
+   Updating manifest (Setup.exe)
+
+Warning: Line 235, Column 13: [Hint] Support function "FileCopy" has been renamed. Use "CopyFile" instead.
+
+Successful compile (1.563 sec). Resulting Setup program filename is:
+D:\a\Oregon-Trail-Accessibility-Mod\Oregon-Trail-Accessibility-Mod\installer\Output\OregonTrailAccessibilitySetup-1.0.0.exe
+== release
+https://github.com/ampage87/Oregon-Trail-Accessibility-Mod/releases/tag/v1.0.0
+== job status: success
