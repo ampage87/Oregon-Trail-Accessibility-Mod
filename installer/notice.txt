@@ -1,0 +1,13 @@
+Oregon Trail Accessibility Mod
+
+This mod makes The Oregon Trail Deluxe (MECC, 1992, DOS version 3.0) playable without vision. It speaks through Windows voices (SAPI) and lets you play the whole game from the keyboard.
+
+What Setup will do
+
+1. Download The Oregon Trail Deluxe for DOS from the Internet Archive (archive.org), where it is preserved in the MS-DOS software library. The game is not part of this installer. If you already have the game files, you can choose to use them instead.
+2. Download DOSBox Staging 0.83.0 from GitHub. DOSBox Staging runs the DOS game on Windows. It is free software under the GNU GPL.
+3. Install the accessibility mod and prepare the game. The original game program is never changed; the mod makes a separate hooked copy called OREGONM.EXE.
+
+The Oregon Trail is a trademark of its owners. This mod is an independent fan project and is not affiliated with or endorsed by them.
+
+While playing, turn your screen reader off or put it to sleep: the mod speaks with Windows voices and needs the keys a screen reader would take. Press F1 in the game for help.

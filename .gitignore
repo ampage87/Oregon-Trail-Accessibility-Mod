@@ -1,0 +1,15 @@
+# the game is never committed
+Game Files/
+*.GAM
+LEGENDS.LST
+# build and run output
+build/
+Logs/
+installer/Output/
+OTAccess.exe
+OTAccess.ini
+otaccess_dosbox.conf
+build_linux_test
+__pycache__/
+_to_delete/
+bin/OTMOD.COM
