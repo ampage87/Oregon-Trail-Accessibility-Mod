@@ -1,0 +1,97 @@
+name: Build installer
+
+# Every push to main builds OTAccess.exe, OTMOD.COM and the installer.
+# The installer is attached to the release named after the VERSION file
+# (created the first time, updated on later pushes of the same version).
+# The build output is saved to the ci-logs branch (ci-log.txt) for review.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Build OTAccess.exe
+        shell: pwsh
+        run: |
+          "== OTAccess.exe ($env:GITHUB_SHA)" | Out-File ci-log.txt -Encoding utf8
+          New-Item -ItemType Directory -Force build | Out-Null
+          Push-Location build
+          $src = '..\src\companion'
+          cl /nologo /O2 /EHsc /std:c++17 /W3 /MT /DUNICODE /D_UNICODE /D_CRT_SECURE_NO_WARNINGS `
+            "$src\guest.cpp" "$src\resources.cpp" "$src\gamestate.cpp" "$src\config.cpp" "$src\mod.cpp" `
+            "$src\patcher.cpp" "$src\platform_win.cpp" /Fe:OTAccess.exe `
+            /link /SUBSYSTEM:WINDOWS user32.lib gdi32.lib ole32.lib oleaut32.lib shell32.lib winmm.lib 2>&1 |
+            Tee-Object -FilePath ..\ci-log.txt -Append
+          $rc = $LASTEXITCODE
+          Pop-Location
+          if ($rc -ne 0) { throw "cl failed ($rc)" }
+
+      - name: Build OTMOD.COM
+        shell: pwsh
+        run: |
+          "== OTMOD.COM" | Out-File ci-log.txt -Append -Encoding utf8
+          choco install nasm -y --no-progress | Out-Null
+          & "$env:ProgramFiles\NASM\nasm.exe" -f bin -o build\OTMOD.COM src\dos\otmod.asm 2>&1 |
+            Tee-Object -FilePath ci-log.txt -Append
+          if (-not (Test-Path build\OTMOD.COM)) { throw "nasm failed" }
+
+      - name: Build installer
+        shell: pwsh
+        run: |
+          "== installer" | Out-File ci-log.txt -Append -Encoding utf8
+          $iscc = "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) { choco install innosetup -y --no-progress | Out-Null }
+          $v = (Get-Content VERSION -Raw).Trim()
+          & $iscc "/DAppVersion=$v" installer\OTAccessSetup.iss 2>&1 | Tee-Object -FilePath ci-log.txt -Append
+          if ($LASTEXITCODE -ne 0) { throw "ISCC failed" }
+          "VERSION=$v" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installer
+          path: installer/Output/*.exe
+
+      - name: Publish release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          "== release" | Out-File ci-log.txt -Append -Encoding utf8
+          $tag = "v$env:VERSION"
+          $files = (Get-ChildItem installer\Output\*.exe).FullName
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $tag $files --clobber 2>&1 | Tee-Object -FilePath ci-log.txt -Append
+          } else {
+            gh release create $tag $files --title "Oregon Trail Accessibility Mod $tag" `
+              --notes-file installer\RELEASE_NOTES.md --target $env:GITHUB_SHA 2>&1 |
+              Tee-Object -FilePath ci-log.txt -Append
+          }
+          if ($LASTEXITCODE -ne 0) { throw "release step failed" }
+
+      - name: Save build log to the ci-logs branch
+        if: always()
+        shell: pwsh
+        run: |
+          "== job status: ${{ job.status }}" | Out-File ci-log.txt -Append -Encoding utf8
+          Copy-Item ci-log.txt $env:RUNNER_TEMP\ci-log.txt -ErrorAction SilentlyContinue
+          git config user.name "build bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan ci-logs
+          git rm -rf --cached . *> $null
+          Copy-Item $env:RUNNER_TEMP\ci-log.txt ci-log.txt -Force -ErrorAction SilentlyContinue
+          git add ci-log.txt
+          git commit -m "Build log for $env:GITHUB_SHA" *> $null
+          git push -f origin ci-logs
